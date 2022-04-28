@@ -1,0 +1,15 @@
+<div class="col-3">
+  <p>
+    <strong><%= category.title %></strong>
+  </p>
+
+  <p>
+  <%= image_tag url_for(category.image), class: 'img-responsive', height: 200, width: 200 %>
+  </p>
+
+  <p class= "badge bg-primary"><%=category.articles.count%></p>
+  
+  <p>
+      <%= link_to "Mostrar esta categoría", category %>
+  </p>
+</div>

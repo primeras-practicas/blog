@@ -1,0 +1,21 @@
+<div class="card margin-top padding">
+    <h3 class="text-uppercase"><%= article.title %></h3>
+    <div class ="col-6">
+
+        <%if article.image.present?%>
+            <div class ="col-12">
+                <%= image_tag url_for(article.image), class: 'img-responsive', height: 500, width: 400 %>
+            </div>
+        <%end%>
+   
+        <p class="text-secondary">creado el <%= article.created_at %></p>
+        <p class="text-secondary">Articulo publicado por <%= article.user.email %></p>
+        <div class="field">
+            <% article.categories.each do |category| %>
+                <span class="badge bg-primary"><%= category.title %></span>    
+            <%end%>
+            <p class ="text-secondary"><%= strip_tags(article.content.body.to_s).truncate_words(50)  %></p>
+        </div>
+        <%= link_to "ver mas", article%>
+	</div>       
+</div>

@@ -1,0 +1,66 @@
+<div class="large-container center-block">
+    <h1><%=@article.title%></h1>
+    <div>
+        <p>Escrito por: <strong><%= @article.user.email %></strong><p>  
+
+        <% if current_user.present? %>
+            <% if current_user.avatar.blank? %>
+            <%else%>
+            <%= image_tag url_for(current_user.avatar), height:100 %>
+            <%end%>
+        <%end%>
+    <div>
+ 
+            <p class="label"><Etiquetas</p>
+            <% @article.categories.each do |category| %>
+                <span class ="badge badge-pill padding" style= "background-color:<%= category.color %>">
+                <%= link_to category.title, category, class:"text-white" %> 
+                </span>
+            <% end %>
+
+            <p class ="text-secondary"><%=@article.content%></p>
+        
+        <%=link_to "Eliminar el articulo", @article, data: { "turbo-method": :delete } %>
+    </div>
+   
+    <% @article.comments.each do |comment| %>
+        <div class="card mb-3" style="max-width: 540px;">
+            <div class="row g-0">
+                <div class="col-md-4"> 
+                    
+                    <%if comment.user.avatar.blank? %>
+                        <%= image_tag 'user.png', class:"img-fluid rounded-start" %>
+                    <%else%>
+                        <%= image_tag url_for(comment.user.avatar),class:"img-fluid rounded-start" %>  
+                    <%end%> 
+                    
+                    
+                </div>
+
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title"> <%=comment.user.email %></h5>
+                        <p class="card-text"> <%= comment.comments %></p>
+                        <p class="card-text"><small class="text-muted">creado el <%=comment.created_at %> </small></p>
+                        
+                    <%if current_user == comment.user%>
+                        <%=link_to "Eliminar el comentario", comment, data: { "turbo-method": :delete }, class: 'btn btn-danger' %>
+                    <%end%>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <%end%>   
+        
+    <%= form_with(model: Comment.new, local: true) do |form| %>
+        <div class="mb-3">
+            <%=form.hidden_field :article_id, value: params[:id] %>
+            <%=form.label :comentario, class: "form-label"%>
+            <%=form.text_area :comments, class:"form-control" %>
+        </div>
+        <div>
+            <%=form.submit :Comentar %>
+        </div>
+
+    <%end%>
+</div>
